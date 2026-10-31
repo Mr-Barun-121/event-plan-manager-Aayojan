@@ -1,0 +1,25 @@
+# Dependency & build outputs
+node_modules/
+dist/
+build/
+coverage/
+
+# AI Studio / IDE artifacts & caches
+.aistudio/
+.agents/
+*.log
+
+# System & OS metadata
+.DS_Store
+Thumbs.db
+
+# Environment variables & secrets (NEVER commit secrets to git)
+.env
+.env.local
+.env.*.local
+*.local
+
+# Whitelist safe configuration templates
+!.env.example
+!firebase-applet-config.json
+!firebase-applet-config.example.json

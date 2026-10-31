@@ -1,0 +1,6 @@
+{
+  "name": "EventGenie — GenAI Event Planning Assistant",
+  "description": "Smart conversational event planning workspace that crafts AI-generated budgets, countdown timelines, vendor checklists, and tailored ideas for weddings, birthdays, and community festivals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

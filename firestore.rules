@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // User Profile Documents
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && incoming().id == userId;
+      allow update: if isOwner(userId) && incoming().id == existing().id;
+      allow delete: if isOwner(userId);
+    }
+
+    // Events Collection
+    match /events/{eventId} {
+      // Individual events can be fetched by ID for viewing celebration details and entry access
+      allow get: if true;
+      // Listing events is strictly restricted to the owner's own events
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerId == request.auth.uid;
+      allow update: if isSignedIn() && existing().ownerId == request.auth.uid && incoming().ownerId == existing().ownerId;
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+    }
+
+    // Invitations and Unique Entry Passes Collection
+    match /invitations/{invitationId} {
+      // Guests can read invitation by ID or query by unique entryCode
+      allow read: if true;
+      // Planner can create invitations
+      allow create: if isSignedIn();
+      // Allow guest RSVP updates or organizer entry check-in status updates
+      allow update: if isSignedIn() ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['rsvpStatus', 'partySize', 'dietary', 'notes', 'updatedAt']) ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['checkedIn', 'checkedInAt', 'updatedAt']);
+      allow delete: if isSignedIn();
+    }
+  }
+}

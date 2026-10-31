@@ -1,0 +1,80 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information and planner preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "preferredCurrency": { "type": "string", "maxLength": 10 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "Full event record including budget, backward timeline, vendor comparisons, guests, and entry code",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "ownerName": { "type": "string", "maxLength": 100 },
+        "title": { "type": "string", "maxLength": 150 },
+        "eventType": { "type": "string", "maxLength": 50 },
+        "date": { "type": "string", "maxLength": 50 },
+        "location": { "type": "string", "maxLength": 200 },
+        "guestCount": { "type": "number" },
+        "totalBudget": { "type": "number" },
+        "currency": { "type": "string", "maxLength": 10 },
+        "theme": { "type": "string", "maxLength": 100 },
+        "culturalPreferences": { "type": "string", "maxLength": 200 },
+        "dietaryNeeds": { "type": "string", "maxLength": 200 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "entryCode": { "type": "string", "maxLength": 30 },
+        "plan": { "type": "object" },
+        "invitationDetails": { "type": "object" },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "ownerId", "title", "date", "entryCode"]
+    },
+    "Invitation": {
+      "title": "Invitation",
+      "description": "Personalized guest invitation and admission entry pass",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "eventId": { "type": "string" },
+        "entryCode": { "type": "string", "maxLength": 30 },
+        "guestName": { "type": "string", "maxLength": 100 },
+        "guestEmail": { "type": "string", "maxLength": 150 },
+        "partySize": { "type": "number" },
+        "rsvpStatus": { "type": "string", "enum": ["pending", "attending", "declined"] },
+        "checkedIn": { "type": "boolean" },
+        "checkedInAt": { "type": "string", "maxLength": 50 },
+        "dietary": { "type": "string", "maxLength": 100 },
+        "tableOrGroup": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "eventId", "entryCode", "guestName", "rsvpStatus"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores user profiles and planner account data"
+    },
+    "/events/{eventId}": {
+      "schema": { "$ref": "#/entities/Event" },
+      "description": "Stores celebration events and comprehensive plans"
+    },
+    "/invitations/{invitationId}": {
+      "schema": { "$ref": "#/entities/Invitation" },
+      "description": "Stores guest invitations with unique entry pass codes"
+    }
+  }
+}

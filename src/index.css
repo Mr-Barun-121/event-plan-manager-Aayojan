@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FFFDF9;
+  }
+}
+
+.font-display {
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.font-serif-festive {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-hand {
+  font-family: 'Caveat', cursive;
+}
+
+/* Festive celebration styling */
+.festive-glow {
+  box-shadow: 0 10px 30px -5px rgba(245, 158, 11, 0.18), 0 4px 12px -2px rgba(220, 38, 38, 0.12);
+}
+
+.festive-card-glow {
+  box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.12), 0 2px 6px -1px rgba(217, 119, 6, 0.08);
+}
+
+.festive-marigold {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+}
+
+.festive-celebration-hero {
+  background: radial-gradient(circle at 50% 0%, rgba(254, 243, 199, 0.7) 0%, rgba(255, 237, 213, 0.4) 40%, rgba(255, 253, 247, 0) 100%);
+}
